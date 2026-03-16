@@ -438,6 +438,28 @@
       <p class="status">No signup. No contacts. Just a link.</p>
       <hr class="divider">
       <button class="btn-primary" id="btn-create">Start a Call →</button>
+      <div style="display:flex;align-items:center;gap:10px;margin:14px 0 4px;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:11px;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;">or join with a code</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <input
+          id="join-code-input"
+          type="text"
+          maxlength="6"
+          placeholder="Enter 6-digit code"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+          style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.75rem 1rem;font-family:var(--font);font-size:16px;font-weight:600;letter-spacing:0.2em;color:var(--pear);text-transform:uppercase;outline:none;text-align:center;transition:border-color 0.2s;"
+          oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"
+          onkeydown="if(event.key==='Enter')joinByCode()"
+          onfocus="this.style.borderColor='var(--pear-dark)'"
+          onblur="this.style.borderColor='var(--border)'"
+        />
+        <button class="btn-primary" style="width:auto;padding:0.75rem 1.1rem;flex-shrink:0;" onclick="joinByCode()">Join →</button>
+      </div>
       <p class="notice" style="margin-top:10px;">Requires microphone access</p>
     </div>
   </div>
@@ -455,6 +477,7 @@
         <div class="copy-badge" id="copy-badge">Copy</div>
       </div>
       <div class="room-code" id="room-code-display">——</div>
+      <p class="status" style="font-size:11px;margin-top:-8px;">↑ share this code directly</p>
       <p class="status" id="host-sub">Peer-to-peer · end-to-end encrypted audio</p>
       <hr class="divider">
       <button class="btn-secondary" id="btn-cancel-host" onclick="cancelCall()">Cancel</button>
@@ -772,6 +795,23 @@
     const roomId = getRoomFromUrl();
     if (roomId) joinRoom(roomId);
   });
+
+  function joinByCode() {
+    const code = document.getElementById('join-code-input').value.trim().toUpperCase();
+    if (code.length < 4) {
+      const input = document.getElementById('join-code-input');
+      input.style.borderColor = 'var(--red)';
+      input.placeholder = 'Need at least 4 chars';
+      setTimeout(() => {
+        input.style.borderColor = 'var(--border)';
+        input.placeholder = 'Enter 6-digit code';
+      }, 1800);
+      return;
+    }
+    setUrl(code);
+    document.getElementById('join-code-display').textContent = code;
+    joinRoom(code);
+  }
 
   // Network status
   function setNetStatus(online) {
