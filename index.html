@@ -472,6 +472,9 @@
       <span id="host-status-label">Waiting for someone to join…</span>
     </div>
     <div class="panel-body">
+      <div id="auto-copy-badge" class="hidden" style="display:flex;align-items:center;gap:8px;background:#0a1500;border:1px solid var(--pear-dark);border-radius:3px;padding:0.6rem 1rem;margin-bottom:12px;font-size:12px;color:var(--pear-dim);letter-spacing:0.04em;">
+        <span style="font-size:14px;">✅</span> Link copied — paste it anywhere to invite someone
+      </div>
       <div class="link-label">Share this link</div>
       <div class="link-box" id="link-box" onclick="copyLink()">
         <div class="link-url" id="room-link">—</div>
@@ -702,6 +705,14 @@
     document.getElementById('room-link').textContent = link;
     document.getElementById('room-code-display').textContent = roomId;
     show('host');
+
+    // Auto-copy link
+    navigator.clipboard.writeText(link).then(() => {
+      const badge = document.getElementById('auto-copy-badge');
+      badge.style.display = 'flex';
+      setTimeout(() => { badge.style.display = 'none'; }, 3500);
+    }).catch(() => {});
+
 
     peer.on('call', (call) => {
       document.getElementById('host-dot').className = 'dot calling';
