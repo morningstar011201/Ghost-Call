@@ -76,10 +76,16 @@
   }
 
   .ghost-logo {
-    width: 32px;
-    height: 36px;
-    flex-shrink: 0;
-  }
+  width: 32px;
+  height: 36px;
+  flex-shrink: 0;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
 
   .brand-name {
     font-size: 22px;
