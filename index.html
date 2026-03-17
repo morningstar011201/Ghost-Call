@@ -19,9 +19,9 @@
     --text: #e8e0f8;
     --text-dim: #7a6aaa;
     --text-muted: #3d3060;
-    --pear: #c8b8ff;
-    --pear-dim: #9880dd;
-    --pear-dark: #4a3880;
+    --accent: #c8b8ff;
+    --accent-dim: #9880dd;
+    --accent-dark: #4a3880;
     --red: #e84040;
     --font: 'Azeret Mono', monospace;
   }
@@ -45,7 +45,6 @@
     padding: 2rem 1.5rem;
   }
 
-  /* Grid bg */
   body::before {
     content: '';
     position: fixed;
@@ -69,7 +68,6 @@
     gap: 0;
   }
 
-  /* Brand */
   .brand {
     display: flex;
     align-items: center;
@@ -77,7 +75,7 @@
     margin-bottom: 3rem;
   }
 
-  .pear-logo {
+  .ghost-logo {
     width: 32px;
     height: 36px;
     flex-shrink: 0;
@@ -86,7 +84,7 @@
   .brand-name {
     font-size: 22px;
     font-weight: 700;
-    color: var(--pear);
+    color: var(--accent);
     letter-spacing: -0.5px;
   }
 
@@ -99,7 +97,6 @@
     margin-top: 2px;
   }
 
-  /* Panel */
   .panel {
     background: var(--bg2);
     border: 1px solid var(--border);
@@ -129,9 +126,9 @@
     flex-shrink: 0;
   }
 
-  .dot.active { background: var(--pear); animation: pulse 1.4s infinite; }
-  .dot.calling { background: var(--pear-dim); animation: blink 0.7s infinite; }
-  .dot.live { background: var(--pear); }
+  .dot.active { background: var(--accent); animation: pulse 1.4s infinite; }
+  .dot.calling { background: var(--accent-dim); animation: blink 0.7s infinite; }
+  .dot.live { background: var(--accent); }
   .dot.dead { background: var(--red); }
 
   @keyframes pulse {
@@ -144,16 +141,13 @@
     50% { opacity: 0.2; }
   }
 
-  .panel-body {
-    padding: 1.5rem 1.25rem;
-  }
+  .panel-body { padding: 1.5rem 1.25rem; }
 
-  /* Big button */
   .btn-primary {
     width: 100%;
     padding: 0.9rem 1.5rem;
-    background: var(--pear);
-    color: #0a0f00;
+    background: var(--accent);
+    color: #0a080f;
     font-family: var(--font);
     font-size: 14px;
     font-weight: 700;
@@ -165,7 +159,7 @@
     text-transform: uppercase;
   }
 
-  .btn-primary:hover { background: #d4f040; transform: translateY(-1px); }
+  .btn-primary:hover { background: #ddd0ff; transform: translateY(-1px); }
   .btn-primary:active { transform: translateY(0); }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
@@ -228,9 +222,8 @@
   }
 
   .btn-half:hover { border-color: var(--text-muted); color: var(--text); }
-  .btn-half.muted { color: var(--pear-dim); border-color: var(--pear-dark); background: #0d1a00; }
+  .btn-half.muted { color: var(--accent-dim); border-color: var(--accent-dark); background: #1a1030; }
 
-  /* Link box */
   .link-box {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -256,7 +249,7 @@
   }
 
   .link-url {
-    color: var(--pear-dim);
+    color: var(--accent-dim);
     font-size: 12px;
     word-break: break-all;
   }
@@ -266,8 +259,8 @@
     top: 8px;
     right: 8px;
     font-size: 10px;
-    background: var(--pear-dark);
-    color: var(--pear);
+    background: var(--accent-dark);
+    color: var(--accent);
     padding: 2px 7px;
     border-radius: 2px;
     text-transform: uppercase;
@@ -277,19 +270,17 @@
   }
 
   .link-box:hover .copy-badge { opacity: 0.8; }
-  .link-box.copied .copy-badge { opacity: 1; content: 'copied!'; }
+  .link-box.copied .copy-badge { opacity: 1; }
 
-  /* Room code */
   .room-code {
     font-size: 36px;
     font-weight: 700;
-    color: var(--pear);
+    color: var(--accent);
     letter-spacing: 0.15em;
     text-align: center;
     margin: 1rem 0;
   }
 
-  /* Status text */
   .status {
     font-size: 12px;
     color: var(--text-dim);
@@ -297,10 +288,9 @@
     margin: 0.5rem 0;
   }
 
-  .status.good { color: var(--pear-dim); }
+  .status.good { color: var(--accent-dim); }
   .status.bad { color: var(--red); }
 
-  /* Timer */
   .timer {
     font-size: 44px;
     font-weight: 300;
@@ -311,7 +301,6 @@
     margin: 1rem 0;
   }
 
-  /* Waveform */
   .wave {
     display: flex;
     align-items: center;
@@ -324,7 +313,7 @@
   .wave-bar {
     width: 3px;
     border-radius: 2px;
-    background: var(--pear);
+    background: var(--accent);
     opacity: 0.5;
     animation: wave-anim 1.2s ease-in-out infinite;
   }
@@ -346,14 +335,12 @@
 
   .wave.paused .wave-bar { animation-play-state: paused; opacity: 0.2; }
 
-  /* Divider */
   .divider {
     border: none;
     border-top: 1px solid var(--border);
     margin: 1.25rem 0;
   }
 
-  /* Footer */
   .footer {
     margin-top: 2.5rem;
     text-align: center;
@@ -364,14 +351,12 @@
 
   .hidden { display: none !important; }
 
-  /* Entry animation */
   .panel { animation: fadein 0.3s ease; }
   @keyframes fadein {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Mic permission notice */
   .notice {
     font-size: 11px;
     color: var(--text-muted);
@@ -379,7 +364,6 @@
     padding: 0.5rem 0;
   }
 
-  /* Network status bar */
   .net-status {
     display: flex;
     align-items: center;
@@ -407,21 +391,18 @@
   .net-status.connecting { color: var(--text-muted); border-color: var(--border); }
   .net-status.connecting .ns-dot { background: var(--text-muted); animation: blink 0.9s infinite; }
 
-  .net-status.online { color: var(--pear-dim); border-color: var(--pear-dark); background: #130e28; }
-  .net-status.online .ns-dot { background: var(--pear); animation: pulse 2s infinite; }
+  .net-status.online { color: var(--accent-dim); border-color: var(--accent-dark); background: #130e28; }
+  .net-status.online .ns-dot { background: var(--accent); animation: pulse 2s infinite; }
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <div class="brand">
-    <svg class="pear-logo" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Ghost body -->
+    <svg class="ghost-logo" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.92"/>
-      <!-- Ghost eyes -->
       <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
       <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
-      <!-- Ghost eye shine -->
       <circle cx="13" cy="17" r="0.8" fill="#c8b8ff"/>
       <circle cx="21" cy="17" r="0.8" fill="#c8b8ff"/>
     </svg>
@@ -430,9 +411,9 @@
       <div class="brand-sub">Instant P2P Voice</div>
     </div>
     <div class="net-status online" id="net-status">
-  <div class="ns-dot"></div>
-  <span id="net-label">Online</span>
-</div>
+      <div class="ns-dot"></div>
+      <span id="net-label">Online</span>
+    </div>
   </div>
 
   <!-- IDLE STATE -->
@@ -459,16 +440,16 @@
           autocomplete="off"
           autocorrect="off"
           spellcheck="false"
-          style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.75rem 1rem;font-family:var(--font);font-size:16px;font-weight:600;letter-spacing:0.2em;color:var(--pear);text-transform:uppercase;outline:none;text-align:center;transition:border-color 0.2s;"
+          style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.75rem 1rem;font-family:var(--font);font-size:16px;font-weight:600;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;outline:none;text-align:center;transition:border-color 0.2s;"
           oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"
           onkeydown="if(event.key==='Enter')joinByCode()"
-          onfocus="this.style.borderColor='var(--pear-dark)'"
+          onfocus="this.style.borderColor='var(--accent-dark)'"
           onblur="this.style.borderColor='var(--border)'"
         />
         <button class="btn-primary" style="width:auto;padding:0.75rem 1.1rem;flex-shrink:0;" onclick="joinByCode()">Join →</button>
       </div>
       <p class="notice" style="margin-top:10px;">Requires microphone access</p>
-      <p class="notice" style="margin-top:6px;color:var(--pear-dark);border-top:1px solid var(--border);padding-top:10px;margin-top:12px;">⚠ Keep screen open during call &mdash; background calls coming soon</p>
+      <p class="notice" style="margin-top:12px;color:var(--accent-dark);border-top:1px solid var(--border);padding-top:10px;">⚠ Keep screen open during call — background calls coming soon</p>
     </div>
   </div>
 
@@ -479,7 +460,7 @@
       <span id="host-status-label">Waiting for someone to join…</span>
     </div>
     <div class="panel-body">
-      <div id="auto-copy-badge" style="display:none;align-items:center;gap:8px;background:#1a1030;border:1px solid var(--pear-dark);border-radius:3px;padding:0.6rem 1rem;margin-bottom:12px;font-size:12px;color:var(--pear-dim);letter-spacing:0.04em;">
+      <div id="auto-copy-badge" style="display:none;align-items:center;gap:8px;background:#1a1030;border:1px solid var(--accent-dark);border-radius:3px;padding:0.6rem 1rem;margin-bottom:12px;font-size:12px;color:var(--accent-dim);letter-spacing:0.04em;">
         <span style="font-size:14px;">✅</span> Link copied — paste it anywhere to invite someone
       </div>
       <div class="link-label">Share this link</div>
@@ -491,7 +472,7 @@
       <p class="status" style="font-size:11px;margin-top:-8px;">↑ share this code directly</p>
       <p class="status" id="host-sub">Peer-to-peer · end-to-end encrypted audio</p>
       <hr class="divider">
-      <button class="btn-secondary" id="btn-cancel-host" onclick="cancelCall()">Cancel</button>
+      <button class="btn-secondary" onclick="cancelCall()">Cancel</button>
     </div>
   </div>
 
@@ -502,7 +483,7 @@
       Incoming Room
     </div>
     <div class="panel-body">
-      <p class="status">You've been invited to a PearCall.</p>
+      <p class="status">You've been invited to a GhostCall.</p>
       <div class="room-code" id="join-code-display">——</div>
       <p class="status">Tap to join the call — no account needed.</p>
       <hr class="divider">
@@ -530,7 +511,7 @@
       </div>
       <hr class="divider">
       <button class="btn-danger" onclick="endCall()">End Call</button>
-      <p class="notice" style="margin-top:12px;color:var(--pear-dark);border-top:1px solid var(--border);padding-top:10px;">⚠ Keep screen open during call &mdash; background calls coming soon</p>
+      <p class="notice" style="margin-top:12px;color:var(--accent-dark);border-top:1px solid var(--border);padding-top:10px;">⚠ Keep screen open during call — background calls coming soon</p>
     </div>
   </div>
 
@@ -572,19 +553,16 @@
   const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
   const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // Device ID — persistent, anonymous
-  let _deviceId = localStorage.getItem('pc_device_id');
+  let _deviceId = localStorage.getItem('gc_device_id');
   if (!_deviceId) {
     _deviceId = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-    localStorage.setItem('pc_device_id', _deviceId);
+    localStorage.setItem('gc_device_id', _deviceId);
   }
 
-  // Device type
   const _deviceType = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
     ? (/iPad|Tablet/i.test(navigator.userAgent) ? 'tablet' : 'mobile')
     : 'desktop';
 
-  // Country — fetch once
   let _country = null;
   fetch('https://ipapi.co/json/')
     .then(r => r.json())
@@ -606,7 +584,7 @@
   }
   // ─────────────────────────────────────────────────────────────────
 
-  const PEER_PREFIX = 'pearroom-';
+  const PEER_PREFIX = 'ghostroom-';
 
   let peer = null;
   let localStream = null;
@@ -705,12 +683,10 @@
     const audio = document.getElementById('remote-audio');
     audio.srcObject = stream;
     audio.play().catch(() => {});
-
     show('connected');
     startTimer();
-
     call.on('close', () => { onCallEnded(); });
-    call.on('error', (e) => { onCallEnded(); });
+    call.on('error', () => { onCallEnded(); });
   }
 
   function onCallEnded() {
@@ -726,14 +702,12 @@
     if (currentCall) { try { currentCall.close(); } catch(e) {} currentCall = null; }
     if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
     if (peer) { try { peer.destroy(); } catch(e) {} peer = null; }
-    const audio = document.getElementById('remote-audio');
-    audio.srcObject = null;
+    document.getElementById('remote-audio').srcObject = null;
     if (resetUrl) window.history.replaceState(null, '', window.location.pathname);
   }
 
   async function startHost() {
     document.getElementById('btn-create').disabled = true;
-
     if (!await getMic()) { document.getElementById('btn-create').disabled = false; return; }
 
     const roomId = genRoomId();
@@ -756,7 +730,6 @@
     document.getElementById('room-code-display').textContent = roomId;
     show('host');
 
-    // Auto-copy link
     navigator.clipboard.writeText(link).then(() => {
       track('link_copied', { room_id: roomId });
       const badge = document.getElementById('auto-copy-badge');
@@ -764,14 +737,11 @@
       setTimeout(() => { badge.style.display = 'none'; }, 3500);
     }).catch(() => {});
 
-
     peer.on('call', (call) => {
       document.getElementById('host-dot').className = 'dot calling';
       document.getElementById('host-status-label').textContent = 'Connecting…';
       call.answer(localStream);
-      call.on('stream', (remoteStream) => {
-        onCallConnected(call, remoteStream);
-      });
+      call.on('stream', (remoteStream) => { onCallConnected(call, remoteStream); });
       call.on('error', () => showError('Connection failed during call.'));
     });
 
@@ -797,10 +767,7 @@
     const call = peer.call(PEER_PREFIX + roomId, localStream);
     if (!call) { showError('Could not reach room. The host may have left.'); return; }
 
-    call.on('stream', (remoteStream) => {
-      onCallConnected(call, remoteStream);
-    });
-
+    call.on('stream', (remoteStream) => { onCallConnected(call, remoteStream); });
     call.on('error', () => showError('Could not connect. The room may no longer exist.'));
     call.on('close', () => onCallEnded());
 
@@ -809,19 +776,9 @@
     }, 20000);
   }
 
-  function cancelCall() {
-    cleanup();
-    show('idle');
-  }
-
-  function endCall() {
-    onCallEnded();
-  }
-
-  function newCall() {
-    cleanup();
-    show('idle');
-  }
+  function cancelCall() { cleanup(); show('idle'); }
+  function endCall() { onCallEnded(); }
+  function newCall() { cleanup(); show('idle'); }
 
   function toggleMute() {
     if (!localStream) return;
@@ -849,10 +806,7 @@
       const badge = document.getElementById('copy-badge');
       badge.textContent = 'Copied!';
       box.classList.add('copied');
-      setTimeout(() => {
-        badge.textContent = 'Copy';
-        box.classList.remove('copied');
-      }, 2000);
+      setTimeout(() => { badge.textContent = 'Copy'; box.classList.remove('copied'); }, 2000);
     });
   }
 
@@ -879,24 +833,17 @@
     joinRoom(code);
   }
 
-  // Network status
-  function setNetStatus(online) {
-  const el = document.getElementById('net-status');
-  const label = document.getElementById('net-label');
-  if (online) {
-    el.className = 'net-status online';
-    label.textContent = 'Online';
-  } else {
+  // Network status — page loaded = we have internet
+  window.addEventListener('offline', () => {
+    const el = document.getElementById('net-status');
     el.className = 'net-status connecting';
-    label.textContent = 'Connecting';
-  }
-}
-
-// Just set online immediately — if the page loaded, we have internet
-setNetStatus(true);
-
-window.addEventListener('offline', () => setNetStatus(false));
-window.addEventListener('online', () => setNetStatus(true));
+    document.getElementById('net-label').textContent = 'Connecting';
+  });
+  window.addEventListener('online', () => {
+    const el = document.getElementById('net-status');
+    el.className = 'net-status online';
+    document.getElementById('net-label').textContent = 'Online';
+  });
 
   // Init
   (function init() {
