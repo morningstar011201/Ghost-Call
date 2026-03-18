@@ -871,7 +871,6 @@ async function removeActiveRoom(roomId) {
   if (!await getMic()) { document.getElementById('btn-create').disabled = false; return; }
 
     const roomId = genRoomId();
-    setUrl(roomId);
 
     try {
       peer = await initPeer(roomId);
@@ -889,6 +888,7 @@ async function removeActiveRoom(roomId) {
     const link = getShareLink(roomId);
     document.getElementById('room-link').textContent = link;
     document.getElementById('room-code-display').textContent = roomId;
+    setUrl(roomId);
     show('host');
 
     navigator.clipboard.writeText(link).then(() => {
