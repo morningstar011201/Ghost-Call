@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
- <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 36'><path d='M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z' fill='%23c8b8ff'/><circle cx='12' cy='18' r='2.5' fill='%230a080f'/><circle cx='20' cy='18' r='2.5' fill='%230a080f'/><circle cx='13' cy='17' r='0.8' fill='%23c8b8ff'/><circle cx='21' cy='17' r='0.8' fill='%23c8b8ff'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 36'><path d='M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z' fill='%23c8b8ff'/><circle cx='12' cy='18' r='2.5' fill='%230a080f'/><circle cx='20' cy='18' r='2.5' fill='%230a080f'/><circle cx='13' cy='17' r='0.8' fill='%23c8b8ff'/><circle cx='21' cy='17' r='0.8' fill='%23c8b8ff'/></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GhostCall — Instant Voice</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
@@ -28,21 +28,19 @@
   }
 
   html, body {
-    height: 100%;
     background: var(--bg);
     color: var(--text);
     font-family: var(--font);
     font-size: 14px;
     line-height: 1.5;
     overflow-x: hidden;
+    min-height: 100%;
   }
 
- body {
+  body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
     padding: 2rem 1.5rem;
   }
 
@@ -69,25 +67,41 @@
     gap: 0;
   }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 3rem;
-}
+  .early-banner {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 1.5rem;
+  }
 
-.ghost-logo {
-  width: 32px;
-  height: 36px;
-  flex-shrink: 0;
-  animation: ghostbounce 3s ease-in-out infinite;
-}
+  .early-pill {
+    background: #1a1030;
+    border: 1px solid #2a2040;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 11px;
+    color: #7a6aaa;
+    letter-spacing: 0.08em;
+  }
 
-@keyframes ghostbounce {
-  0%   { transform: translateY(0px);  }
-  50%  { transform: translateY(-8px); }
-  100% { transform: translateY(0px);  }
-}
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3rem;
+  }
+
+  .ghost-logo {
+    width: 32px;
+    height: 36px;
+    flex-shrink: 0;
+    animation: ghostbounce 3s ease-in-out infinite;
+  }
+
+  @keyframes ghostbounce {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+  }
 
   .brand-name {
     font-size: 22px;
@@ -110,7 +124,6 @@
     border: 1px solid var(--border);
     border-radius: 4px;
     overflow: hidden;
-    transition: all 0.2s;
   }
 
   .panel-head {
@@ -357,7 +370,7 @@
     letter-spacing: 0.06em;
   }
 
- .quality {
+  .quality {
     display: flex;
     align-items: center;
     gap: 7px;
@@ -369,7 +382,7 @@
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    height: 14px;
+    height: 16px;
   }
 
   .quality-bars span {
@@ -393,14 +406,12 @@
 
   .quality.good .quality-bars span { background: var(--accent); }
   .quality.good .quality-label { color: var(--accent-dim); }
-
   .quality.fair .quality-bars span:nth-child(1),
   .quality.fair .quality-bars span:nth-child(2) { background: #e8a830; }
   .quality.fair .quality-label { color: #e8a830; }
-
   .quality.poor .quality-bars span:nth-child(1) { background: var(--red); }
   .quality.poor .quality-label { color: var(--red); }
- 
+
   .hidden { display: none !important; }
 
   .panel { animation: fadein 0.3s ease; }
@@ -442,19 +453,17 @@
 
   .net-status.connecting { color: var(--text-muted); border-color: var(--border); }
   .net-status.connecting .ns-dot { background: var(--text-muted); animation: blink 0.9s infinite; }
-
   .net-status.online { color: var(--accent-dim); border-color: var(--accent-dark); background: #130e28; }
   .net-status.online .ns-dot { background: var(--accent); animation: pulse 2s infinite; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div style="display:flex;justify-content:center;padding:0 0 1.5rem;position:relative;z-index:10;">
-    <div style="background:#1a1030;border:1px solid #2a2040;border-radius:20px;padding:6px 16px;font-family:'Azeret Mono',monospace;font-size:11px;color:#7a6aaa;letter-spacing:0.08em;">
-      👻 Early access — instant calls may occasionally fail.
-    </div>
+
+  <div class="early-banner">
+    <div class="early-pill">👻 Early access — instant calls may occasionally fail.</div>
   </div>
- 
+
   <div class="brand">
     <svg class="ghost-logo" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.92"/>
@@ -464,7 +473,7 @@
       <circle cx="21" cy="17" r="0.8" fill="#c8b8ff"/>
     </svg>
     <div style="flex:1;">
-      <div class="brand-name">Ghost Call</div>
+      <div class="brand-name">GhostCall</div>
       <div class="brand-sub">Instant P2P Voice</div>
     </div>
     <div class="net-status online" id="net-status">
@@ -473,12 +482,9 @@
     </div>
   </div>
 
-  <!-- IDLE STATE -->
+  <!-- IDLE -->
   <div class="panel" id="view-idle">
-    <div class="panel-head">
-      <div class="dot"></div>
-      Ready
-    </div>
+    <div class="panel-head"><div class="dot"></div>Ready</div>
     <div class="panel-body">
       <p class="status">No signup. No contacts. Just a link.</p>
       <hr class="divider">
@@ -489,20 +495,13 @@
         <div style="flex:1;height:1px;background:var(--border);"></div>
       </div>
       <div style="display:flex;gap:8px;margin-top:10px;">
-        <input
-          id="join-code-input"
-          type="text"
-          maxlength="6"
-          placeholder="Enter 6-digit code"
-          autocomplete="off"
-          autocorrect="off"
-          spellcheck="false"
+        <input id="join-code-input" type="text" maxlength="6" placeholder="Enter 6-digit code"
+          autocomplete="off" autocorrect="off" spellcheck="false"
           style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.75rem 1rem;font-family:var(--font);font-size:16px;font-weight:600;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;outline:none;text-align:center;transition:border-color 0.2s;"
           oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"
           onkeydown="if(event.key==='Enter')joinByCode()"
           onfocus="this.style.borderColor='var(--accent-dark)'"
-          onblur="this.style.borderColor='var(--border)'"
-        />
+          onblur="this.style.borderColor='var(--border)'" />
         <button class="btn-primary" style="width:auto;padding:0.75rem 1.1rem;flex-shrink:0;" onclick="joinByCode()">Join →</button>
       </div>
       <p class="notice" style="margin-top:10px;">Requires microphone access</p>
@@ -510,7 +509,7 @@
     </div>
   </div>
 
-  <!-- HOSTING STATE -->
+  <!-- HOSTING -->
   <div class="panel hidden" id="view-host">
     <div class="panel-head">
       <div class="dot active" id="host-dot"></div>
@@ -533,12 +532,9 @@
     </div>
   </div>
 
-  <!-- JOIN STATE -->
+  <!-- JOIN -->
   <div class="panel hidden" id="view-join">
-    <div class="panel-head">
-      <div class="dot calling"></div>
-      Incoming Room
-    </div>
+    <div class="panel-head"><div class="dot calling"></div>Incoming Room</div>
     <div class="panel-body">
       <p class="status">You've been invited to a GhostCall.</p>
       <div class="room-code" id="join-code-display">——</div>
@@ -549,17 +545,12 @@
     </div>
   </div>
 
-  <!-- CONNECTED STATE -->
+  <!-- CONNECTED -->
   <div class="panel hidden" id="view-connected">
-    <div class="panel-head">
-      <div class="dot live"></div>
-      Live Call
-    </div>
+    <div class="panel-head"><div class="dot live"></div>Live Call</div>
     <div class="panel-body">
-     <div class="quality" id="call-quality">
-        <div class="quality-bars">
-          <span></span><span></span><span></span><span></span>
-        </div>
+      <div class="quality" id="call-quality">
+        <div class="quality-bars"><span></span><span></span><span></span><span></span></div>
         <div class="quality-label" id="quality-label">Connecting…</div>
       </div>
       <div class="wave" id="wave">
@@ -578,12 +569,9 @@
     </div>
   </div>
 
-  <!-- ENDED STATE -->
+  <!-- ENDED -->
   <div class="panel hidden" id="view-ended">
-    <div class="panel-head">
-      <div class="dot dead"></div>
-      Call Ended
-    </div>
+    <div class="panel-head"><div class="dot dead"></div>Call Ended</div>
     <div class="panel-body">
       <div class="timer" id="final-timer" style="font-size:32px;margin:0.5rem 0;">0:00</div>
       <p class="status good" style="margin-bottom:1rem;">Call complete. Link is now invalid.</p>
@@ -592,12 +580,9 @@
     </div>
   </div>
 
- <!-- BUSY STATE -->
+  <!-- BUSY -->
   <div class="panel hidden" id="view-busy">
-    <div class="panel-head">
-      <div class="dot calling"></div>
-      GhostCall is Busy
-    </div>
+    <div class="panel-head"><div class="dot calling"></div>GhostCall is Busy</div>
     <div class="panel-body">
       <p style="font-size:28px;text-align:center;margin:0.5rem 0;">👻</p>
       <p class="status" style="font-size:13px;margin:0.5rem 0;">Too many active calls right now.</p>
@@ -606,13 +591,10 @@
       <button class="btn-primary" onclick="newCall()">Retry</button>
     </div>
   </div>
- 
-  <!-- ERROR STATE -->
+
+  <!-- ERROR -->
   <div class="panel hidden" id="view-error">
-    <div class="panel-head">
-      <div class="dot dead"></div>
-      Connection Error
-    </div>
+    <div class="panel-head"><div class="dot dead"></div>Connection Error</div>
     <div class="panel-body">
       <p class="status bad" id="error-msg">Something went wrong.</p>
       <hr class="divider">
@@ -626,9 +608,8 @@
 <audio id="remote-audio" autoplay playsinline></audio>
 
 <script>
-  // ─── Supabase Analytics ───────────────────────────────────────────
-  const SUPABASE_URL = 'https://joixomjjddckbdvoxtgy.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvaXhvbWpqZGRja2Jkdm94dGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAzOTUsImV4cCI6MjA4OTIzNjM5NX0.o6QYrHk04dSgMBFO6Vg2NuDcQt-uoLcLMHxTMryk3Ek';
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
   const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let _deviceId = localStorage.getItem('gc_device_id');
@@ -660,24 +641,27 @@
       });
     } catch(e) {}
   }
-  // ─────────────────────────────────────────────────────────────────
 
   const PEER_PREFIX = 'ghostroom-';
+  const MAX_ACTIVE_ROOMS = 20;
 
   let peer = null;
   let localStream = null;
   let currentCall = null;
   let isMuted = false;
   let timerInterval = null;
+  let qualityInterval = null;
   let timerSeconds = 0;
   let isHost = false;
+  let currentRoomId = null;
 
-  const views = ['idle','host','join','connected','ended','error','busy'];
+  const views = ['idle','host','join','connected','ended','busy','error'];
 
   function show(name) {
     views.forEach(v => {
       document.getElementById('view-' + v).classList.toggle('hidden', v !== name);
     });
+    window.scrollTo(0, 0);
   }
 
   function genRoomId() {
@@ -692,12 +676,8 @@
     return hash.length >= 4 ? hash.toUpperCase() : null;
   }
 
-  function setUrl(roomId) {
-    window.history.replaceState(null, '', '#' + roomId);
-  }
-
   function getShareLink(roomId) {
-    return window.location.href.split('#')[0] + '#' + roomId;
+    return window.location.origin + window.location.pathname + '#' + roomId;
   }
 
   function showError(msg) {
@@ -718,78 +698,38 @@
   }
 
   async function getTurnCredentials() {
-  try {
-    const res = await fetch('https://ghostcall-turn.mr-morningstar011201.workers.dev');
-    const data = await res.json();
-    return data.iceServers || [];
-  } catch(e) {
-    return [];
-  }
-}
-
-function initPeer(id) {
-  return new Promise(async (resolve, reject) => {
-    const turnServers = await getTurnCredentials();
-    const p = new Peer(id ? PEER_PREFIX + id : undefined, {
-      debug: 0,
-      config: {
-        iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' },
-          ...turnServers
-        ]
-      }
-    });
-    p.on('open', () => resolve(p));
-    p.on('error', (err) => {
-      if (err.type === 'unavailable-id') {
-        reject(new Error('Room is already in use. Try creating a new one.'));
-      } else {
-        reject(new Error('Connection failed: ' + err.type));
-      }
-    });
-    setTimeout(() => reject(new Error('Connection timeout. Check your internet.')), 12000);
-  });
-}
-
- let qualityInterval = null;
-
-  async function checkCallQuality() {
-    if (!currentCall || !currentCall.peerConnection) return;
     try {
-      const stats = await currentCall.peerConnection.getStats();
-      let rtt = 0;
-      let packetLoss = 0;
-      let hasData = false;
+      const res = await fetch('https://ghostcall-turn.mr-morningstar011201.workers.dev');
+      const data = await res.json();
+      return data.iceServers || [];
+    } catch(e) { return []; }
+  }
 
-      stats.forEach(report => {
-        if (report.type === 'remote-inbound-rtp' && report.kind === 'audio') {
-          rtt = report.roundTripTime || 0;
-          const lost = report.packetsLost || 0;
-          const received = report.packetsReceived || 1;
-          packetLoss = (lost / (lost + received)) * 100;
-          hasData = true;
+  function initPeer(id) {
+    return new Promise(async (resolve, reject) => {
+      const turnServers = await getTurnCredentials();
+      const p = new Peer(id ? PEER_PREFIX + id : undefined, {
+        debug: 0,
+        config: {
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            ...turnServers
+          ]
         }
       });
-
-      if (!hasData) return;
-
-      const el = document.getElementById('call-quality');
-      const label = document.getElementById('quality-label');
-
-      if (rtt < 0.15 && packetLoss < 2) {
-        el.className = 'quality good';
-        label.textContent = 'Good';
-      } else if (rtt < 0.4 && packetLoss < 8) {
-        el.className = 'quality fair';
-        label.textContent = 'Fair';
-      } else {
-        el.className = 'quality poor';
-        label.textContent = 'Poor';
-      }
-    } catch(e) {}
+      p.on('open', () => resolve(p));
+      p.on('error', (err) => {
+        if (err.type === 'unavailable-id') {
+          reject(new Error('Room is already in use. Try creating a new one.'));
+        } else {
+          reject(new Error('Connection failed: ' + err.type));
+        }
+      });
+      setTimeout(() => reject(new Error('Connection timeout. Check your internet.')), 12000);
+    });
   }
- 
+
   function startTimer() {
     timerSeconds = 0;
     clearInterval(timerInterval);
@@ -805,72 +745,102 @@ function initPeer(id) {
     return m + ':' + (sec < 10 ? '0' : '') + sec;
   }
 
+  async function checkCallQuality() {
+    if (!currentCall || !currentCall.peerConnection) return;
+    try {
+      const stats = await currentCall.peerConnection.getStats();
+      let rtt = 0, packetLoss = 0, hasData = false;
+      stats.forEach(report => {
+        if (report.type === 'remote-inbound-rtp' && report.kind === 'audio') {
+          rtt = report.roundTripTime || 0;
+          const lost = report.packetsLost || 0;
+          const received = report.packetsReceived || 1;
+          packetLoss = (lost / (lost + received)) * 100;
+          hasData = true;
+        }
+      });
+      if (!hasData) return;
+      const el = document.getElementById('call-quality');
+      const label = document.getElementById('quality-label');
+      if (rtt < 0.15 && packetLoss < 2) {
+        el.className = 'quality good'; label.textContent = 'Good';
+      } else if (rtt < 0.4 && packetLoss < 8) {
+        el.className = 'quality fair'; label.textContent = 'Fair';
+      } else {
+        el.className = 'quality poor'; label.textContent = 'Poor';
+      }
+    } catch(e) {}
+  }
+
   function onCallConnected(call, stream) {
     currentCall = call;
-    track('call_connected', { room_id: call.peer ? call.peer.replace(PEER_PREFIX,'') : null });
+    track('call_connected', { room_id: currentRoomId });
     const audio = document.getElementById('remote-audio');
     audio.srcObject = stream;
     audio.play().catch(() => {});
     show('connected');
     startTimer();
     qualityInterval = setInterval(checkCallQuality, 3000);
-    call.on('close', () => { onCallEnded(); });
-    call.on('error', () => { onCallEnded(); });
+    call.on('close', () => onCallEnded());
+    call.on('error', () => onCallEnded());
   }
 
   function onCallEnded() {
     clearInterval(timerInterval);
     clearInterval(qualityInterval);
     track('call_ended', { call_duration: timerSeconds });
-   if (isHost) removeActiveRoom(window.location.hash.slice(1));
+    if (isHost && currentRoomId) removeActiveRoom(currentRoomId);
     document.getElementById('final-timer').textContent = formatTime(timerSeconds);
     show('ended');
     cleanup(false);
   }
 
   function cleanup(resetUrl = true) {
-    if (timerInterval) clearInterval(timerInterval);
+    clearInterval(timerInterval);
+    clearInterval(qualityInterval);
     if (currentCall) { try { currentCall.close(); } catch(e) {} currentCall = null; }
     if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
     if (peer) { try { peer.destroy(); } catch(e) {} peer = null; }
     document.getElementById('remote-audio').srcObject = null;
-    if (resetUrl) window.history.replaceState(null, '', window.location.pathname);
+    if (resetUrl) {
+      window.history.replaceState(null, '', window.location.pathname);
+      currentRoomId = null;
+      isHost = false;
+    }
   }
 
- const MAX_ACTIVE_ROOMS = 20;
+  async function getActiveRoomCount() {
+    try {
+      const { count } = await _sb.from('active_rooms').select('*', { count: 'exact', head: true });
+      return count || 0;
+    } catch(e) { return 0; }
+  }
 
-async function getActiveRoomCount() {
-  try {
-    const { count } = await _sb.from('active_rooms').select('*', { count: 'exact', head: true });
-    return count || 0;
-  } catch(e) { return 0; }
-}
+  async function addActiveRoom(roomId) {
+    try { await _sb.from('active_rooms').insert({ room_id: roomId }); } catch(e) {}
+  }
 
-async function addActiveRoom(roomId) {
-  try {
-    await _sb.from('active_rooms').insert({ room_id: roomId });
-  } catch(e) {}
-}
+  async function removeActiveRoom(roomId) {
+    try { await _sb.from('active_rooms').delete().eq('room_id', roomId); } catch(e) {}
+  }
 
-async function removeActiveRoom(roomId) {
-  try {
-    await _sb.from('active_rooms').delete().eq('room_id', roomId);
-  } catch(e) {}
-}
- 
   async function startHost() {
-  document.getElementById('btn-create').disabled = true;
+    document.getElementById('btn-create').disabled = true;
 
-  const activeCount = await getActiveRoomCount();
-  if (activeCount >= MAX_ACTIVE_ROOMS) {
-    document.getElementById('btn-create').disabled = false;
-    show('busy');
-    return;
-  }
+    const activeCount = await getActiveRoomCount();
+    if (activeCount >= MAX_ACTIVE_ROOMS) {
+      document.getElementById('btn-create').disabled = false;
+      show('busy');
+      return;
+    }
 
-  if (!await getMic()) { document.getElementById('btn-create').disabled = false; return; }
+    if (!await getMic()) {
+      document.getElementById('btn-create').disabled = false;
+      return;
+    }
 
     const roomId = genRoomId();
+    currentRoomId = roomId;
 
     try {
       peer = await initPeer(roomId);
@@ -883,12 +853,12 @@ async function removeActiveRoom(roomId) {
     isHost = true;
     document.getElementById('btn-create').disabled = false;
     track('room_created', { room_id: roomId });
-   addActiveRoom(roomId);
+    addActiveRoom(roomId);
 
+    window.history.replaceState(null, '', '#' + roomId);
     const link = getShareLink(roomId);
     document.getElementById('room-link').textContent = link;
     document.getElementById('room-code-display').textContent = roomId;
-    setUrl(roomId);
     show('host');
 
     navigator.clipboard.writeText(link).then(() => {
@@ -902,7 +872,7 @@ async function removeActiveRoom(roomId) {
       document.getElementById('host-dot').className = 'dot calling';
       document.getElementById('host-status-label').textContent = 'Connecting…';
       call.answer(localStream);
-      call.on('stream', (remoteStream) => { onCallConnected(call, remoteStream); });
+      call.on('stream', (remoteStream) => onCallConnected(call, remoteStream));
       call.on('error', () => showError('Connection failed during call.'));
     });
 
@@ -912,8 +882,12 @@ async function removeActiveRoom(roomId) {
   async function joinRoom(roomId) {
     document.getElementById('btn-join').disabled = true;
     track('join_clicked', { room_id: roomId });
+    currentRoomId = roomId;
 
-    if (!await getMic()) { document.getElementById('btn-join').disabled = false; return; }
+    if (!await getMic()) {
+      document.getElementById('btn-join').disabled = false;
+      return;
+    }
 
     try {
       peer = await initPeer(null);
@@ -928,7 +902,7 @@ async function removeActiveRoom(roomId) {
     const call = peer.call(PEER_PREFIX + roomId, localStream);
     if (!call) { showError('Could not reach room. The host may have left.'); return; }
 
-    call.on('stream', (remoteStream) => { onCallConnected(call, remoteStream); });
+    call.on('stream', (remoteStream) => onCallConnected(call, remoteStream));
     call.on('error', () => showError('Could not connect. The room may no longer exist.'));
     call.on('close', () => onCallEnded());
 
@@ -938,10 +912,11 @@ async function removeActiveRoom(roomId) {
   }
 
   function cancelCall() {
-  if (isHost) removeActiveRoom(window.location.hash.slice(1));
-  cleanup();
-  show('idle');
-}
+    if (isHost && currentRoomId) removeActiveRoom(currentRoomId);
+    cleanup();
+    show('idle');
+  }
+
   function endCall() { onCallEnded(); }
   function newCall() { cleanup(); show('idle'); }
 
@@ -975,12 +950,6 @@ async function removeActiveRoom(roomId) {
     });
   }
 
-  document.getElementById('btn-create').addEventListener('click', startHost);
-  document.getElementById('btn-join').addEventListener('click', () => {
-    const roomId = getRoomFromUrl();
-    if (roomId) joinRoom(roomId);
-  });
-
   function joinByCode() {
     const code = document.getElementById('join-code-input').value.trim().toUpperCase();
     if (code.length < 4) {
@@ -993,29 +962,32 @@ async function removeActiveRoom(roomId) {
       }, 1800);
       return;
     }
-    setUrl(code);
+    currentRoomId = code;
     document.getElementById('join-code-display').textContent = code;
     joinRoom(code);
   }
 
-  // Network status — page loaded = we have internet
+  document.getElementById('btn-create').addEventListener('click', startHost);
+  document.getElementById('btn-join').addEventListener('click', () => {
+    const roomId = getRoomFromUrl();
+    if (roomId) joinRoom(roomId);
+  });
+
   window.addEventListener('offline', () => {
-    const el = document.getElementById('net-status');
-    el.className = 'net-status connecting';
+    document.getElementById('net-status').className = 'net-status connecting';
     document.getElementById('net-label').textContent = 'Connecting';
   });
   window.addEventListener('online', () => {
-    const el = document.getElementById('net-status');
-    el.className = 'net-status online';
+    document.getElementById('net-status').className = 'net-status online';
     document.getElementById('net-label').textContent = 'Online';
   });
 
-  // Init
   (function init() {
     const roomId = getRoomFromUrl();
     track('session_started');
     if (roomId) {
       track('link_opened', { room_id: roomId });
+      currentRoomId = roomId;
       document.getElementById('join-code-display').textContent = roomId;
       show('join');
     } else {
