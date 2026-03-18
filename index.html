@@ -701,7 +701,7 @@
       const res = await fetch('https://ghostcall-turn.mr-morningstar011201.workers.dev', { signal: controller.signal });
       clearTimeout(timeout);
       const data = await res.json();
-      return data.iceServers || [];
+      return Array.isArray(servers) ? servers : [];
     } catch(e) { return []; }
   }
 
@@ -715,7 +715,7 @@
             iceServers: [
               { urls: 'stun:stun.l.google.com:19302' },
               { urls: 'stun:stun1.l.google.com:19302' },
-              ...turnServers
+              ...(Array.isArray(turnServers) ? turnServers : [])
             ]
           }
         });
