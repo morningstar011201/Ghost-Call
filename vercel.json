@@ -5,6 +5,7 @@
     { "source": "/app#:hash", "destination": "/app.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/contact", "destination": "/contact.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
