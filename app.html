@@ -876,7 +876,11 @@
   let _heartbeatInterval = null;
   let _heartbeatChannel = null;
 
-  async function startBackgroundFix() {
+ function initAudioContext() {
+  if (_audioCtx) return;
+  try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+} 
+ async function startBackgroundFix() {
     // Wake Lock — keeps screen on
     try {
       if ('wakeLock' in navigator) {
@@ -886,7 +890,8 @@
 
     // AudioContext oscillator — keeps tab alive in background
     try {
-      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (_audioCtx.state === 'suspended') await _audioCtx.resume();
       _oscillator = _audioCtx.createOscillator();
       const gain = _audioCtx.createGain();
       gain.gain.value = 0.001; // nearly silent but treated as active audio
@@ -1202,11 +1207,12 @@
     });
   }
 
-  document.getElementById('btn-create').addEventListener('click', startHost);
-  document.getElementById('btn-join').addEventListener('click', () => {
+ document.getElementById('btn-create').addEventListener('click', () => { initAudioContext(); startHost(); });
+ document.getElementById('btn-join').addEventListener('click', () => {
+    initAudioContext();
     const roomId = getRoomFromUrl();
     if (roomId) joinRoom(roomId);
-  });
+ });
 
   function joinByCode() {
     const code = document.getElementById('join-code-input').value.trim().toUpperCase();
