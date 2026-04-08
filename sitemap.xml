@@ -26,9 +26,9 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-  <loc>https://www.ghostcall.space/blog</loc>
-  <priority>0.7</priority>
-  <changefreq>weekly</changefreq>
+    <loc>https://www.ghostcall.space/blog</loc>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
 </url>
 <url>
   <loc>https://www.ghostcall.space/blog/call-without-phone-number</loc>
@@ -45,8 +45,13 @@
   <priority>0.6</priority>
   <changefreq>monthly</changefreq>
 </url>
-  <url>
+<url>
   <loc>https://www.ghostcall.space/blog/whatsapp-username-call-without-number</loc>
+  <priority>0.6</priority>
+  <changefreq>monthly</changefreq>
+</url>
+<url>
+  <loc>https://www.ghostcall.space/blog/phone-number-tracking</loc>
   <priority>0.6</priority>
   <changefreq>monthly</changefreq>
 </url>
