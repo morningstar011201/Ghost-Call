@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Your Phone Number Is Quietly Used to Track You Across Apps — GhostCall Blog</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="You gave your number to Swiggy once for OTP. But that number is now quietly used to track you across apps, ad networks, and platforms. Here's how it actually works.">
+<meta name="keywords" content="phone number tracking India, how apps track you phone number, phone number privacy India, UPI phone number privacy, WhatsApp number tracking, stop phone number tracking, phone number data broker India">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.ghostcall.space/blog/phone-number-tracking">
+<meta property="og:title" content="How Your Phone Number Is Quietly Used to Track You Across Apps">
+<meta property="og:description" content="You gave your number to Swiggy once for OTP. But that number is now quietly connecting everything you do across apps and ad networks.">
+<meta property="og:url" content="https://www.ghostcall.space/blog/phone-number-tracking">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://www.ghostcall.space/favicon-192x192.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How Your Phone Number Is Quietly Used to Track You Across Apps">
+<meta name="twitter:description" content="You gave your number to Swiggy once for OTP. Here's what actually happened after that.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How Your Phone Number Is Quietly Used to Track You Across Apps",
+  "description": "You gave your number to Swiggy once for OTP. But that number is now quietly used to track you across apps, ad networks, and platforms.",
+  "url": "https://www.ghostcall.space/blog/phone-number-tracking",
+  "datePublished": "2026-04-08",
+  "publisher": {
+    "@type": "Organization",
+    "name": "GhostCall",
+    "url": "https://www.ghostcall.space"
+  }
+}
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #7c3aed;
+    --accent-light: #ede9fe;
+    --ghost: #c8b8ff;
+    --text: #1a1a1a;
+    --text-dim: #4b4b6b;
+    --text-muted: #9090a0;
+    --border: #e5e5e5;
+    --bg: #ffffff;
+    --bg2: #faf9ff;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  nav {
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .nav-links { display: flex; align-items: center; gap: 20px; }
+  .nav-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-size: 13px;
+    background: var(--accent);
+    color: #fff !important;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+    flex: 1;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover { color: var(--accent); }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .post-tag {
+    font-size: 11px;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .post-date { font-size: 13px; color: var(--text-muted); }
+
+  h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .post-intro {
+    font-size: 17px;
+    color: var(--text-dim);
+    border-left: 3px solid var(--ghost);
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+    font-style: italic;
+    line-height: 1.9;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 2rem 0 0.75rem;
+  }
+
+  p { color: var(--text-dim); margin-bottom: 1.25rem; }
+
+  .highlight {
+    background: var(--bg2);
+    border: 1px solid #e0d8ff;
+    border-left: 3px solid var(--ghost);
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin: 1.5rem 0;
+    color: var(--text-dim);
+    font-size: 15px;
+    line-height: 2;
+  }
+
+  .ghost-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 2rem 0;
+  }
+
+  .ghost-divider::before,
+  .ghost-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .cta-box {
+    background: var(--bg2);
+    border: 1px solid #e0d8ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+
+  .cta-box p {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .cta-btn:hover { background: #6d28d9; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">
+    <svg width="22" height="26" viewBox="0 0 32 36" fill="none">
+      <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.92"/>
+      <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
+      <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
+      <circle cx="13" cy="17" r="0.8" fill="#c8b8ff"/>
+      <circle cx="21" cy="17" r="0.8" fill="#c8b8ff"/>
+    </svg>
+    GhostCall
+  </a>
+  <div class="nav-links">
+    <a href="/blog">Blog</a>
+    <a href="/contact">Contact</a>
+    <a href="/app" class="nav-cta">Start a Call →</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <a href="/blog" class="back-link">← Back to Blog</a>
+
+  <div class="post-meta">
+    <span class="post-tag">Privacy</span>
+    <span class="post-date">April 2026</span>
+  </div>
+
+  <h1>How your phone number is quietly used to track you across apps</h1>
+
+  <p class="post-intro">You gave your number to Swiggy once. For OTP verification. That's it.<br><br>Except that's not really it.</p>
+
+  <hr class="divider">
+
+  <h2>Your phone number isn't just a contact detail</h2>
+
+  <p>This is the part most people don't think about.</p>
+
+  <p>When you hand over your phone number to an app — any app — you're not just giving them a way to reach you. You're giving them an identity token. A unique string that ties together everything you do, everywhere you've ever typed those 10 digits.</p>
+
+  <p>Phone numbers don't change much. Unlike email addresses where people have three or four different ones, most Indians have had the same mobile number for years. Sometimes a decade or more.</p>
+
+  <p>That makes it perfect for tracking.</p>
+
+  <h2>How the network actually works</h2>
+
+  <p>Okay so here's the thing that should bother you more than it does.</p>
+
+  <p>Swiggy has your number. Zomato has your number. Amazon has your number. Your bank has your number. That one random app you downloaded in 2019 and deleted three months later — they still have your number.</p>
+
+  <p>Each of these companies individually knowing your number is whatever. Fine.</p>
+
+  <p>But a lot of these apps share data with the same advertising networks. Google. Meta. A bunch of smaller data brokers you've never heard of.</p>
+
+  <p>And when multiple apps all send your phone number to the same ad network — even in hashed form, even "anonymously" — that network can quietly build a profile. Same number showing up from Swiggy, Meesho, MakeMyTrip, and a fitness app? Now someone knows roughly who you are, what you buy, where you travel, what you're interested in.</p>
+
+  <p>You didn't sign up for that. You just wanted your biryani delivered.</p>
+
+  <h2>The WhatsApp angle nobody talks about</h2>
+
+  <p>When you give someone your WhatsApp number, you're not just letting them contact you.</p>
+
+  <p>WhatsApp is owned by Meta. Meta runs Facebook and Instagram. Your number is the thread that connects your activity across all three platforms — even if you have different names, different profile pictures, different personas on each one.</p>
+
+  <p>Meta has said they don't use WhatsApp messages for ads. Okay. But your number, your contacts, your usage patterns — that's a different conversation.</p>
+
+  <p>And the moment someone you don't fully trust has your WhatsApp number, they have a way to find your Facebook, potentially your Instagram, maybe your linked accounts elsewhere. Phone numbers are surprisingly searchable if you know where to look.</p>
+
+  <h2>The UPI problem</h2>
+
+  <p>This one is specifically Indian and specifically underappreciated.</p>
+
+  <p>Your UPI ID is often just your phone number @okaxis or @ybl or whatever. So when you pay someone — a shop, a freelancer, a person on OLX — they don't just receive money. They receive a string that contains your phone number.</p>
+
+  <p>From that they can find your WhatsApp. Possibly your name. Possibly more.</p>
+
+  <p>You were just trying to pay for something. You accidentally handed over a small piece of your identity.</p>
+
+  <h2>What does "hashed" actually mean and does it matter</h2>
+
+  <p>Apps often say — don't worry, we only share your number in hashed form. Meaning they run it through an algorithm and send a scrambled version, not the actual digits.</p>
+
+  <p>The problem is phone numbers have low entropy. There are only about 700-800 million active mobile numbers in India. A determined system can just hash all of them and compare.</p>
+
+  <p>So "hashed" doesn't mean anonymous. It means slightly inconvenient to reverse. That's different.</p>
+
+  <div class="ghost-divider">
+    <svg width="18" height="22" viewBox="0 0 32 36" fill="none">
+      <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.5"/>
+      <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
+      <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
+    </svg>
+  </div>
+
+  <h2>So what do you actually do about this</h2>
+
+  <p>Honestly, completely avoiding this is impossible if you use a smartphone in India in 2026. Your number is already out there in too many places.</p>
+
+  <p>But you can stop it from spreading further.</p>
+
+  <p>For new people you talk to — especially one-time conversations, marketplace deals, freelance discovery calls, anyone you're not sure about yet — there's no reason to hand over your number as the first move.</p>
+
+  <p>That's kind of the whole reason GhostCall exists.</p>
+
+  <p>You get a link. They get a link. You talk. Call ends. Nobody got anybody's number. The thing that usually starts the whole tracking chain — that first number exchange — just never happened.</p>
+
+  <p>It's a small thing. But tracking always starts somewhere. Usually with the number.</p>
+
+  <h2>The bigger picture</h2>
+
+  <p>India's data protection law — the DPDP Act — is slowly coming into effect. It's supposed to give people more control over how their data is used. Good. Long overdue.</p>
+
+  <p>But laws take time. Enforcement takes longer. And the data that's already been collected, already been shared, already sitting in a hundred different servers — that's not going anywhere.</p>
+
+  <p>The only real protection right now is being a bit more careful about who gets your number in the first place.</p>
+
+  <p>Which sounds obvious. But most people don't think about it until something weird happens. An unknown number calling at odd hours. Ads that feel too specific. Someone knowing something about you they shouldn't.</p>
+
+  <p>By then the number has already traveled further than you think.</p>
+
+  <div class="ghost-divider">
+    <svg width="18" height="22" viewBox="0 0 32 36" fill="none">
+      <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.5"/>
+      <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
+      <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
+    </svg>
+  </div>
+
+  <p>Keep your number closer than you think you need to.</p>
+
+  <!-- More from GhostCall Blog -->
+  <div style="background:var(--bg2);border:1px solid #e0d8ff;border-radius:8px;padding:1.25rem 1.5rem;margin-top:2rem;">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.08em;">More from GhostCall Blog</p>
+    <a href="/blog/what-is-ghostcall" style="display:block;color:var(--accent);text-decoration:none;font-size:15px;margin-bottom:0.5rem;">→ So what actually is GhostCall?</a>
+    <a href="/blog/whatsapp-username-call-without-number" style="display:block;color:var(--accent);text-decoration:none;font-size:15px;margin-bottom:0.5rem;">→ WhatsApp is getting usernames — but can you call without sharing your number?</a>
+    <a href="/blog/olx-phone-number-safety" style="display:block;color:var(--accent);text-decoration:none;font-size:15px;">→ Is it safe to share your phone number on OLX?</a>
+  </div>
+
+  <div class="cta-box">
+    <svg width="32" height="38" viewBox="0 0 32 36" fill="none" style="margin-bottom:0.75rem;">
+      <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.7"/>
+      <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
+      <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
+      <circle cx="13" cy="17" r="0.8" fill="#c8b8ff"/>
+      <circle cx="21" cy="17" r="0.8" fill="#c8b8ff"/>
+    </svg>
+    <p>No signup needed. No number required. Just open and talk.</p>
+    <a href="/app" class="cta-btn">Try GhostCall Free →</a>
+  </div>
+
+</div>
+
+<footer>
+  <div>
+    <a href="/privacy">Privacy</a> ·
+    <a href="/terms">Terms</a> ·
+    <a href="/contact">Contact</a> ·
+    <a href="/blog">Blog</a> ·
+    <a href="/">Home</a>
+  </div>
+  <div style="margin-top:8px;color:#9ca3af;text-align:center;width:100%;display:block;">© 2026 GhostCall</div>
+</footer>
+
+</body>
+</html>
