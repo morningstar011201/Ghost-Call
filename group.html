@@ -11,9 +11,19 @@
 <meta name="theme-color" content="#0a080f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="Start a free group voice call on GhostCall. No signup. Up to 4 people. Just share a link.">
+<meta name="description" content="Start a free group voice call on GhostCall. Up to 4 people. No signup, no app, no phone number. Just share a link and talk instantly.">
+<meta name="keywords" content="free group voice call, group call no signup, group call browser, anonymous group call, group voice call online, group call without app, instant group call">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.ghostcall.space/group">
+<meta property="og:title" content="GhostCall — Free Group Voice Call. No Signup.">
+<meta property="og:description" content="Talk with up to 4 people instantly. No signup, no app, no phone number. Just share a link.">
+<meta property="og:url" content="https://www.ghostcall.space/group">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.ghostcall.space/favicon-192x192.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GhostCall — Free Group Voice Call. No Signup.">
+<meta name="twitter:description" content="Talk with up to 4 people instantly. No signup, no app, no phone number.">
+<meta name="twitter:image" content="https://www.ghostcall.space/favicon-192x192.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -444,6 +454,29 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvaXhvbWpqZGRja2Jkdm94dGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAzOTUsImV4cCI6MjA4OTIzNjM5NX0.o6QYrHk04dSgMBFO6Vg2NuDcQt-uoLcLMHxTMryk3Ek';
   const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  let _deviceId = localStorage.getItem('gc_device_id');
+  if (!_deviceId) {
+    _deviceId = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem('gc_device_id', _deviceId);
+  }
+  const _deviceType = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
+    ? (/iPad|Tablet/i.test(navigator.userAgent) ? 'tablet' : 'mobile') : 'desktop';
+  let _country = null;
+
+  async function track(eventType, extra = {}) {
+    try {
+      await _sb.from('events').insert({
+        event_type: eventType,
+        room_id: extra.room_id || null,
+        device_id: _deviceId,
+        country: _country,
+        device_type: _deviceType,
+        call_duration: extra.call_duration || null,
+        metadata: extra.metadata || null
+      });
+    } catch(e) {}
+  }
+
   const PEER_PREFIX = 'ghostgroup-';
   const MAX_PARTICIPANTS = 4;
 
@@ -519,6 +552,7 @@
       const res = await fetch('https://ghostcall-turn.mr-morningstar011201.workers.dev', { signal: controller.signal });
       clearTimeout(timeout);
       const data = await res.json();
+      if (data.country) _country = data.country;
       const servers = data.iceServers;
       if (Array.isArray(servers)) return servers;
       if (servers && typeof servers === 'object') return [servers];
@@ -664,6 +698,7 @@
 
     isHost = true;
     document.getElementById('btn-create').disabled = false;
+    track('room_created', { room_id: roomId, metadata: { type: 'group' } });
 
     const link = getShareLink(roomId);
     document.getElementById('room-link').textContent = link;
@@ -697,6 +732,7 @@
     document.getElementById('btn-join').disabled = true;
     myName = document.getElementById('name-input-join').value.trim() || 'Guest';
     currentRoomId = roomId;
+    track('join_clicked', { room_id: roomId, metadata: { type: 'group' } });
 
     if (!await getMic()) { document.getElementById('btn-join').disabled = false; return; }
 
@@ -718,6 +754,7 @@
       updateParticipantUI();
       show('connected');
       startTimer();
+      track('call_connected', { room_id: roomId, metadata: { type: 'group' } });
     });
 
     hostCall.on('close', () => {
@@ -765,6 +802,7 @@
 
   function onCallEnded() {
     clearInterval(timerInterval);
+    track('call_ended', { room_id: currentRoomId, call_duration: timerSeconds, metadata: { type: 'group' } });
     document.getElementById('final-timer').textContent = formatTime(timerSeconds);
     show('ended');
     cleanup(false);
@@ -816,6 +854,7 @@
 
   (function init() {
     const roomId = getRoomFromUrl();
+    track('session_started');
     if (roomId) {
       currentRoomId = roomId;
       document.getElementById('join-code-display').textContent = roomId;
