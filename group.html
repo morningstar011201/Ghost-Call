@@ -210,6 +210,22 @@
 
   .participant-avatar.you-av { background: #0a2010; color: var(--green); }
 
+  /* Speaking ring animation */
+  .participant-avatar.speaking {
+    box-shadow: 0 0 0 2px var(--green);
+    animation: speaking-pulse 1s ease-in-out infinite;
+  }
+
+  .participant-avatar.you-av.speaking {
+    box-shadow: 0 0 0 2px var(--green);
+    animation: speaking-pulse 1s ease-in-out infinite;
+  }
+
+  @keyframes speaking-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px var(--green); }
+    50% { box-shadow: 0 0 0 5px rgba(64, 192, 128, 0.3); }
+  }
+
   .participant-name { flex: 1; letter-spacing: 0.04em; }
 
   .participant-status {
@@ -493,6 +509,64 @@
   // participants map: peerId -> { name, call, stream }
   let participants = {};
 
+  // speaking state map: peerId -> bool
+  let speakingState = {};
+  // VAD analysers map: peerId -> { analyser, interval }
+  let vadMap = {};
+
+  // ── Voice Activity Detection ──
+  function startVoiceDetection(peerId, stream) {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(stream);
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 512;
+      analyser.smoothingTimeConstant = 0.3;
+      source.connect(analyser);
+      const data = new Uint8Array(analyser.frequencyBinCount);
+
+      const interval = setInterval(() => {
+        analyser.getByteFrequencyData(data);
+        const avg = data.reduce((a, b) => a + b, 0) / data.length;
+        const isSpeaking = avg > 8; // threshold — adjust if needed
+        if (speakingState[peerId] !== isSpeaking) {
+          speakingState[peerId] = isSpeaking;
+          updateSpeakingUI(peerId, isSpeaking);
+        }
+      }, 100);
+
+      vadMap[peerId] = { audioCtx, interval };
+    } catch(e) {}
+  }
+
+  function stopVoiceDetection(peerId) {
+    if (vadMap[peerId]) {
+      clearInterval(vadMap[peerId].interval);
+      try { vadMap[peerId].audioCtx.close(); } catch(e) {}
+      delete vadMap[peerId];
+    }
+    delete speakingState[peerId];
+  }
+
+  function startSelfVoiceDetection() {
+    if (!localStream) return;
+    startVoiceDetection('self', localStream);
+  }
+
+  function updateSpeakingUI(peerId, isSpeaking) {
+    // Update both host and connected participant lists
+    ['participants-host', 'participants-connected'].forEach(containerId => {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const targetId = peerId === 'self' ? 'self-participant' : 'participant-' + peerId;
+      const el = container.querySelector('#' + targetId + ' .participant-avatar');
+      if (el) {
+        if (isSpeaking) el.classList.add('speaking');
+        else el.classList.remove('speaking');
+      }
+    });
+  }
+
   const views = ['idle','host','join','connected','ended','busy','error'];
 
   function show(name) {
@@ -597,8 +671,10 @@
       // Self
       const selfDiv = document.createElement('div');
       selfDiv.className = 'participant you';
+      selfDiv.id = 'self-participant';
+      const selfSpeaking = speakingState['self'] && !isMuted;
       selfDiv.innerHTML = `
-        <div class="participant-avatar you-av">${myName.charAt(0) || 'Y'}</div>
+        <div class="participant-avatar you-av${selfSpeaking ? ' speaking' : ''}">${myName.charAt(0) || 'Y'}</div>
         <div class="participant-name">${myName} (you)</div>
         <div class="participant-status ${isMuted ? 'muted' : 'speaking'}">${isMuted ? 'Muted' : 'Live'}</div>
       `;
@@ -609,10 +685,11 @@
         const div = document.createElement('div');
         div.className = 'participant connected';
         div.id = 'participant-' + pid;
+        const isSpeakingNow = speakingState[pid] || false;
         div.innerHTML = `
-          <div class="participant-avatar">${(p.name || 'G').charAt(0)}</div>
+          <div class="participant-avatar${isSpeakingNow ? ' speaking' : ''}">${(p.name || 'G').charAt(0)}</div>
           <div class="participant-name">${p.name || 'Guest'}</div>
-          <div class="participant-status speaking">Live</div>
+          <div class="participant-status ${isSpeakingNow ? 'speaking' : ''}">${isSpeakingNow ? 'Speaking' : 'Live'}</div>
         `;
         container.appendChild(div);
       });
@@ -657,16 +734,19 @@
     call.on('stream', (remoteStream) => {
       participants[remotePeerId] = { name: remoteName, call, stream: remoteStream };
       addRemoteAudio(remotePeerId, remoteStream);
+      startVoiceDetection(remotePeerId, remoteStream);
       updateParticipantUI();
 
       if (Object.keys(participants).length === 1) {
         // First person joined — move host to connected view
         show('connected');
         startTimer();
+        startSelfVoiceDetection();
       }
     });
 
     call.on('close', () => {
+      stopVoiceDetection(remotePeerId);
       delete participants[remotePeerId];
       removeRemoteAudio(remotePeerId);
       updateParticipantUI();
@@ -676,6 +756,7 @@
     });
 
     call.on('error', () => {
+      stopVoiceDetection(remotePeerId);
       delete participants[remotePeerId];
       removeRemoteAudio(remotePeerId);
       updateParticipantUI();
@@ -751,9 +832,11 @@
       connected = true;
       participants[hostCall.peer] = { name: 'Host', call: hostCall, stream: remoteStream };
       addRemoteAudio(hostCall.peer, remoteStream);
+      startVoiceDetection(hostCall.peer, remoteStream);
       updateParticipantUI();
       show('connected');
       startTimer();
+      startSelfVoiceDetection();
       track('call_connected', { room_id: roomId, metadata: { type: 'group' } });
     });
 
@@ -813,6 +896,8 @@
 
   function cleanup(resetUrl = true) {
     clearInterval(timerInterval);
+    Object.keys(vadMap).forEach(pid => stopVoiceDetection(pid));
+    stopVoiceDetection('self');
     Object.keys(participants).forEach(pid => {
       try { participants[pid].call.close(); } catch(e) {}
       removeRemoteAudio(pid);
@@ -869,4 +954,4 @@
   }
 </script>
 </body>
-</html>
+     </html>
