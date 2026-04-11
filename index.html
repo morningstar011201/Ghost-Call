@@ -31,17 +31,16 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #ffffff;
-    --bg2: #faf9ff;
-    --bg3: #f3f0ff;
-    --border: #e5e0f5;
-    --text: #1a1a2e;
-    --text-dim: #4a4a6a;
-    --text-muted: #9090b0;
-    --accent: #7c3aed;
+    --bg: #0a080f;
+    --bg2: #110e1a;
+    --bg3: #181424;
+    --border: #2a2040;
+    --text: #e8e0f8;
+    --text-dim: #b8b0cc;
+    --text-muted: #7a7490;
+    --accent: #c8b8ff;
     --accent-dim: #9880dd;
-    --accent-dark: #ede9fe;
-    --accent-light: #c8b8ff;
+    --accent-dark: #4a3880;
     --font: 'Azeret Mono', monospace;
   }
 
@@ -53,7 +52,7 @@
     overflow-x: hidden;
   }
 
-  /* Subtle grid background */
+  /* Grid background */
   body::before {
     content: '';
     position: fixed;
@@ -62,7 +61,7 @@
       linear-gradient(var(--bg3) 1px, transparent 1px),
       linear-gradient(90deg, var(--bg3) 1px, transparent 1px);
     background-size: 48px 48px;
-    opacity: 0.5;
+    opacity: 0.4;
     pointer-events: none;
     z-index: 0;
   }
@@ -76,7 +75,7 @@
     transform: translateX(-50%);
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(152,128,221,0.12) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -90,7 +89,7 @@
     justify-content: space-between;
     padding: 1.25rem 2rem;
     border-bottom: 1px solid var(--border);
-    background: rgba(255,255,255,0.9);
+    background: rgba(10,8,15,0.8);
     backdrop-filter: blur(10px);
   }
 
@@ -140,7 +139,7 @@
     transition: all 0.15s;
   }
 
-  .btn-nav:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-nav:hover { border-color: var(--accent-dark); color: var(--accent); }
 
   /* HERO */
   .hero {
@@ -159,12 +158,12 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--accent-dark);
-    border: 1px solid #ddd0ff;
+    background: #1a1030;
+    border: 1px solid var(--accent-dark);
     border-radius: 20px;
     padding: 6px 16px;
     font-size: 11px;
-    color: var(--accent);
+    color: var(--accent-dim);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: 2rem;
@@ -217,7 +216,7 @@
   .btn-primary {
     padding: 0.9rem 2rem;
     background: var(--accent);
-    color: #ffffff;
+    color: #0a080f;
     font-family: var(--font);
     font-size: 14px;
     font-weight: 700;
@@ -233,7 +232,7 @@
     gap: 8px;
   }
 
-  .btn-primary:hover { background: #6d28d9; transform: translateY(-2px); }
+  .btn-primary:hover { background: #ddd0ff; transform: translateY(-2px); }
 
   .btn-ghost {
     padding: 0.9rem 2rem;
@@ -251,7 +250,7 @@
     transition: all 0.15s;
   }
 
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-ghost:hover { border-color: var(--accent-dark); color: var(--accent); }
 
   .hero-note {
     font-size: 11px;
@@ -294,8 +293,8 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--accent-dark);
-    border: 1px solid #ddd0ff;
+    background: var(--bg2);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -353,7 +352,7 @@
     transition: border-color 0.2s;
   }
 
-  .feature-card:hover { border-color: #c8b8ff; }
+  .feature-card:hover { border-color: var(--accent-dark); }
 
   .feature-icon {
     font-size: 20px;
@@ -474,8 +473,8 @@
   <div class="nav-brand">
     <svg class="nav-logo" viewBox="0 0 32 36" fill="none">
       <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.92"/>
-      <circle cx="12" cy="18" r="2.5" fill="#1a1a2e"/>
-      <circle cx="20" cy="18" r="2.5" fill="#1a1a2e"/>
+      <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
+      <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
       <circle cx="13" cy="17" r="0.8" fill="#c8b8ff"/>
       <circle cx="21" cy="17" r="0.8" fill="#c8b8ff"/>
     </svg>
@@ -509,9 +508,9 @@
 
   <p class="hero-note">Free forever · No credit card · Works in any browser</p>
 
-  <div id="call-counter" style="margin-top:2rem;display:flex;align-items:center;justify-content:center;gap:10px;background:#f3f0ff;border:1px solid #ddd0ff;border-radius:20px;padding:10px 24px;">
-    <span style="font-size:13px;color:#9090b0;font-family:'Azeret Mono',monospace;letter-spacing:0.06em;">⚡ Instant calls made:</span>
-    <span id="call-count" style="font-size:16px;font-weight:700;color:#7c3aed;font-family:'Azeret Mono',monospace;letter-spacing:0.05em;">—</span>
+  <div id="call-counter" style="margin-top:2rem;display:flex;align-items:center;justify-content:center;gap:10px;background:#1a1030;border:1px solid #2a2040;border-radius:20px;padding:10px 24px;">
+    <span style="font-size:13px;color:#7a7490;font-family:'Azeret Mono',monospace;letter-spacing:0.06em;">⚡ Instant calls made:</span>
+    <span id="call-count" style="font-size:16px;font-weight:700;color:#c8b8ff;font-family:'Azeret Mono',monospace;letter-spacing:0.05em;">—</span>
   </div>
 </section>
 
@@ -550,8 +549,8 @@
       <div class="feature-icon">
         <svg width="24" height="28" viewBox="0 0 32 36" fill="none">
           <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.92"/>
-          <circle cx="12" cy="18" r="2.5" fill="#1a1a2e"/>
-          <circle cx="20" cy="18" r="2.5" fill="#1a1a2e"/>
+          <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
+          <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
           <circle cx="13" cy="17" r="0.8" fill="#c8b8ff"/>
           <circle cx="21" cy="17" r="0.8" fill="#c8b8ff"/>
         </svg>
@@ -600,8 +599,8 @@
     <div class="stat-value">
       <svg width="36" height="40" viewBox="0 0 32 36" fill="none">
         <path d="M6 18C6 10.268 10.477 5 16 5C21.523 5 26 10.268 26 18V32C26 32 23 30 20 32C17 34 15 34 12 32C9 30 6 32 6 32V18Z" fill="#c8b8ff" opacity="0.92"/>
-        <circle cx="12" cy="18" r="2.5" fill="#1a1a2e"/>
-        <circle cx="20" cy="18" r="2.5" fill="#1a1a2e"/>
+        <circle cx="12" cy="18" r="2.5" fill="#0a080f"/>
+        <circle cx="20" cy="18" r="2.5" fill="#0a080f"/>
         <circle cx="13" cy="17" r="0.8" fill="#c8b8ff"/>
         <circle cx="21" cy="17" r="0.8" fill="#c8b8ff"/>
       </svg>
@@ -654,4 +653,4 @@
 </script>
  
 </body>
- </html>
+</html>
