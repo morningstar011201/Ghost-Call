@@ -346,6 +346,36 @@
   }
 
   .hidden { display: none !important; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .tab-btn {
+    font-family: var(--font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+
+  .tab-btn:hover { color: var(--text-dim); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 </style>
 </head>
 <body>
@@ -405,6 +435,15 @@
   <div class="main">
     <div id="loading-state" class="loading">Loading analytics…</div>
     <div id="data-content" class="hidden">
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('analytics')">Analytics</button>
+        <button class="tab-btn" onclick="switchTab('pages')">Page Visits</button>
+      </div>
+
+      <!-- TAB 1: Analytics -->
+      <div class="tab-content active" id="tab-analytics">
 
       <div class="section-title">Overview</div>
       <div class="stats-grid">
@@ -479,7 +518,29 @@
         </div>
       </div>
 
-    </div>
+      </div><!-- end tab-analytics -->
+
+      <!-- TAB 2: Page Visits -->
+      <div class="tab-content" id="tab-pages">
+
+        <div class="section-title">Page Visits — All Time</div>
+        <div class="chart-card" style="margin-bottom:12px;">
+          <div class="chart-title">Visits Per Page</div>
+          <table class="data-table">
+            <thead><tr><th>Page</th><th>Visits</th></tr></thead>
+            <tbody id="page-tbody"><tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">Loading…</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="section-title">Page Visits — Last 14 Days</div>
+        <div class="chart-card">
+          <div class="chart-title">Daily Page Views</div>
+          <div class="chart-wrap" style="height:220px;">
+            <canvas id="chart-pageviews"></canvas>
+          </div>
+        </div>
+
+      </div><!-- end tab-pages -->
   </div>
 </div>
 
@@ -607,10 +668,10 @@
   }
 
   async function fetchCountries() {
-    const { data } = await sb.from('events').select('country').eq('event_type', 'session_started').not('country', 'is', null);
+    const { data } = await sb.from('events').select('country').not('country', 'is', null).not('country', 'eq', '');
     const counts = {};
     (data || []).forEach(r => { counts[r.country] = (counts[r.country] || 0) + 1; });
-    return Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,8);
+    return Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,10);
   }
 
   async function fetchDurations() {
@@ -718,6 +779,76 @@
         <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:${Math.max((count/max)*100,2)}%"></div></div>
         <div class="funnel-count">${count.toLocaleString()}</div>
       </div>`).join('');
+  }
+
+  // ── Tabs ──────────────────────────────────────────────────────────
+  function switchTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+    if (name === 'pages') loadPageVisits();
+  }
+
+  // ── Page Visits ───────────────────────────────────────────────────
+  async function loadPageVisits() {
+    document.getElementById('page-tbody').innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">Loading…</td></tr>';
+    try {
+      const { data } = await sb.from('events')
+        .select('metadata, created_at')
+        .eq('event_type', 'page_view');
+
+      if (!data || data.length === 0) {
+        document.getElementById('page-tbody').innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">No page view data yet — add tracking to blog pages first.</td></tr>';
+        return;
+      }
+
+      // Count by page
+      const pageCounts = {};
+      const dailyViews = {};
+
+      // Init last 14 days
+      for (let i = 0; i < 14; i++) {
+        const d = new Date(); d.setDate(d.getDate() - (13 - i));
+        dailyViews[d.toISOString().slice(0,10)] = 0;
+      }
+
+      data.forEach(r => {
+        const page = (r.metadata && r.metadata.page) ? r.metadata.page : 'unknown';
+        pageCounts[page] = (pageCounts[page] || 0) + 1;
+        const day = r.created_at.slice(0,10);
+        if (dailyViews[day] !== undefined) dailyViews[day]++;
+      });
+
+      // Render table
+      const sorted = Object.entries(pageCounts).sort((a,b) => b[1]-a[1]);
+      document.getElementById('page-tbody').innerHTML = sorted.map(([page, count]) =>
+        `<tr><td>${page}</td><td>${count.toLocaleString()}</td></tr>`
+      ).join('');
+
+      // Render chart
+      const labels = Object.keys(dailyViews).map(d => new Date(d + 'T00:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' }));
+      const values = Object.values(dailyViews);
+
+      if (charts.pageviews) charts.pageviews.destroy();
+      charts.pageviews = new Chart(document.getElementById('chart-pageviews'), {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{ label: 'Page Views', data: values, backgroundColor: '#4a3880', borderRadius: 2, hoverBackgroundColor: '#9880dd' }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#3d3060', font: { family: 'Azeret Mono', size: 10 } }, grid: { color: '#181424' } },
+            y: { ticks: { color: '#3d3060', font: { family: 'Azeret Mono', size: 10 } }, grid: { color: '#181424' }, beginAtZero: true }
+          }
+        }
+      });
+    } catch(e) {
+      document.getElementById('page-tbody').innerHTML = '<tr><td colspan="2" style="color:var(--red);">Failed to load page data.</td></tr>';
+    }
   }
 
   // ── Boot ──────────────────────────────────────────────────────────
