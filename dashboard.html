@@ -506,7 +506,7 @@
         <div class="chart-card">
           <div class="chart-title">Top Countries</div>
           <table class="data-table">
-            <thead><tr><th>Country</th><th>Sessions</th></tr></thead>
+            <thead><tr><th>Country</th><th>Sessions</th><th>Calls</th></tr></thead>
             <tbody id="country-tbody"></tbody>
           </table>
         </div>
@@ -667,12 +667,20 @@
     return counts;
   }
 
-  async function fetchCountries() {
-    const { data } = await sb.from('events').select('country').not('country', 'is', null).not('country', 'eq', '');
+async function fetchCountries() {
+    const { data } = await sb.from('events')
+      .select('country, event_type')
+      .not('country', 'is', null)
+      .not('country', 'eq', '')
+      .in('event_type', ['session_started', 'call_connected']);
     const counts = {};
-    (data || []).forEach(r => { counts[r.country] = (counts[r.country] || 0) + 1; });
-    return Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,10);
-  }
+    (data || []).forEach(r => {
+      if (!counts[r.country]) counts[r.country] = { sessions: 0, calls: 0 };
+      if (r.event_type === 'session_started') counts[r.country].sessions++;
+      if (r.event_type === 'call_connected') counts[r.country].calls++;
+    });
+    return Object.entries(counts).sort((a,b) => b[1].sessions - a[1].sessions).slice(0,10);
+ }
 
   async function fetchDurations() {
     const { data } = await sb.from('events').select('call_duration').eq('event_type', 'call_ended').not('call_duration', 'is', null);
@@ -748,9 +756,9 @@
 
   function renderCountries(entries) {
     document.getElementById('country-tbody').innerHTML = entries.length === 0
-      ? '<tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">No data yet</td></tr>'
-      : entries.map(([c, n]) => `<tr><td>${c}</td><td>${n.toLocaleString()}</td></tr>`).join('');
-  }
+      ? '<tr><td colspan="3" style="color:var(--text-muted);padding-top:12px;">No data yet</td></tr>'
+      : entries.map(([c, n]) => `<tr><td>${c}</td><td>${n.sessions.toLocaleString()}</td><td>${n.calls.toLocaleString()}</td></tr>`).join('');
+ }
 
   function renderDurations(buckets) {
     if (charts.duration) charts.duration.destroy();
