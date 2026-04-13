@@ -389,15 +389,16 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   try {
-    const _sbp = supabase.createClient(
+    const _sbpv = supabase.createClient(
       'https://joixomjjddckbdvoxtgy.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvaXhvbWpqZGRja2Jkdm94dGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAzOTUsImV4cCI6MjA4OTIzNjM5NX0.o6QYrHk04dSgMBFO6Vg2NuDcQt-uoLcLMHxTMryk3Ek'
     );
-    _sbp.from('events').insert({
+    _sbpv.from('events').insert({
       event_type: 'page_view',
       metadata: { page: window.location.pathname }
     });
   } catch(e) {}
 </script>
+  
 </body>
 </html>
