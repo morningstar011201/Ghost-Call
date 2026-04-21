@@ -350,10 +350,10 @@
   /* Tabs */
   .tabs {
     display: flex;
-    gap: 4px;
-    margin-bottom: 1.5rem;
+    gap: 2px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 0;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
   }
 
   .tab-btn {
@@ -364,11 +364,12 @@
     color: var(--text-muted);
     background: transparent;
     border: none;
-    padding: 8px 16px;
+    padding: 10px 16px;
     cursor: pointer;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
     transition: all 0.15s;
+    white-space: nowrap;
   }
 
   .tab-btn:hover { color: var(--text-dim); }
@@ -396,7 +397,6 @@
         <div class="login-sub">Admin Dashboard</div>
       </div>
     </div>
-
     <div class="field">
       <div class="field-label">Email</div>
       <input type="email" id="login-email" placeholder="admin@example.com" autocomplete="email" />
@@ -438,91 +438,100 @@
 
       <!-- Tabs -->
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('analytics')">Analytics</button>
-        <button class="tab-btn" onclick="switchTab('pages')">Page Visits</button>
+        <button class="tab-btn active" id="tbtn-overview" onclick="switchTab('overview')">Overview</button>
+        <button class="tab-btn" id="tbtn-activity" onclick="switchTab('activity')">Activity</button>
+        <button class="tab-btn" id="tbtn-funnel" onclick="switchTab('funnel')">Funnel</button>
+        <button class="tab-btn" id="tbtn-geo" onclick="switchTab('geo')">Geography</button>
+        <button class="tab-btn" id="tbtn-pages" onclick="switchTab('pages')">Page Visits</button>
       </div>
 
-      <!-- TAB 1: Analytics -->
-      <div class="tab-content active" id="tab-analytics">
-
-      <div class="section-title">Overview</div>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Sessions</div>
-          <div class="stat-value" id="s-sessions">—</div>
-          <div class="stat-sub">all time</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Rooms Created</div>
-          <div class="stat-value" id="s-rooms">—</div>
-          <div class="stat-sub">all time</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Calls Connected</div>
-          <div class="stat-value" id="s-connected">—</div>
-          <div class="stat-sub">all time</div>
-        </div>
-        <div class="stat-card red">
-          <div class="stat-label">Calls Failed</div>
-          <div class="stat-value" id="s-failed">—</div>
-          <div class="stat-sub">all time</div>
-        </div>
-        <div class="stat-card dim">
-          <div class="stat-label">Success Rate</div>
-          <div class="stat-value" id="s-rate">—</div>
-          <div class="stat-sub">connected / attempts</div>
-        </div>
-        <div class="stat-card dim">
-          <div class="stat-label">Avg Duration</div>
-          <div class="stat-value" id="s-duration">—</div>
-          <div class="stat-sub">per call</div>
-        </div>
-      </div>
-
-      <div class="section-title">Activity — Last 14 Days</div>
-      <div class="chart-card">
-        <div class="chart-title">Daily Events</div>
-        <div class="chart-wrap" style="height:220px;">
-          <canvas id="chart-timeline"></canvas>
-        </div>
-      </div>
-
-      <div class="section-title">Funnel & Breakdown</div>
-      <div class="charts-grid wide">
-        <div class="chart-card">
-          <div class="chart-title">Conversion Funnel</div>
-          <div class="funnel" id="funnel-wrap" style="padding-top:8px;"></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Device Type</div>
-          <div class="chart-wrap" style="height:180px;">
-            <canvas id="chart-device"></canvas>
+      <!-- TAB: Overview -->
+      <div class="tab-content active" id="tab-overview">
+        <div class="section-title">Overview — All Time</div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Sessions</div>
+            <div class="stat-value" id="s-sessions">—</div>
+            <div class="stat-sub">all time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Rooms Created</div>
+            <div class="stat-value" id="s-rooms">—</div>
+            <div class="stat-sub">all time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Calls Connected</div>
+            <div class="stat-value" id="s-connected">—</div>
+            <div class="stat-sub">all time</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Calls Failed</div>
+            <div class="stat-value" id="s-failed">—</div>
+            <div class="stat-sub">all time</div>
+          </div>
+          <div class="stat-card dim">
+            <div class="stat-label">Success Rate</div>
+            <div class="stat-value" id="s-rate">—</div>
+            <div class="stat-sub">connected / attempts</div>
+          </div>
+          <div class="stat-card dim">
+            <div class="stat-label">Avg Duration</div>
+            <div class="stat-value" id="s-duration">—</div>
+            <div class="stat-sub">per call</div>
           </div>
         </div>
-      </div>
 
-      <div class="section-title">Geography & Duration</div>
-      <div class="charts-grid">
+        <div class="section-title" style="margin-top:1.75rem;">Call Duration Distribution</div>
         <div class="chart-card">
-          <div class="chart-title">Top Countries</div>
-          <table class="data-table">
-            <thead><tr><th>Country</th><th>Sessions</th><th>Calls</th></tr></thead>
-            <tbody id="country-tbody"></tbody>
-          </table>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Call Duration Distribution</div>
+          <div class="chart-title">Duration Buckets</div>
           <div class="chart-wrap">
             <canvas id="chart-duration"></canvas>
           </div>
         </div>
       </div>
 
-      </div><!-- end tab-analytics -->
+      <!-- TAB: Activity -->
+      <div class="tab-content" id="tab-activity">
+        <div class="section-title">Activity — Last 14 Days</div>
+        <div class="chart-card">
+          <div class="chart-title">Daily Sessions & Calls</div>
+          <div class="chart-wrap" style="height:260px;">
+            <canvas id="chart-timeline"></canvas>
+          </div>
+        </div>
 
-      <!-- TAB 2: Page Visits -->
+        <div class="section-title">Device Breakdown</div>
+        <div class="chart-card" style="max-width:400px;">
+          <div class="chart-title">Device Type</div>
+          <div class="chart-wrap" style="height:220px;">
+            <canvas id="chart-device"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Funnel -->
+      <div class="tab-content" id="tab-funnel">
+        <div class="section-title">Conversion Funnel</div>
+        <div class="chart-card">
+          <div class="chart-title">User Journey</div>
+          <div class="funnel" id="funnel-wrap" style="padding-top:8px;"></div>
+        </div>
+      </div>
+
+      <!-- TAB: Geography -->
+      <div class="tab-content" id="tab-geo">
+        <div class="section-title">Top Countries</div>
+        <div class="chart-card">
+          <div class="chart-title">Sessions & Calls by Country</div>
+          <table class="data-table">
+            <thead><tr><th>Country</th><th>Sessions</th><th>Calls</th></tr></thead>
+            <tbody id="country-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: Page Visits -->
       <div class="tab-content" id="tab-pages">
-
         <div class="section-title">Page Visits — All Time</div>
         <div class="chart-card" style="margin-bottom:12px;">
           <div class="chart-title">Visits Per Page</div>
@@ -531,7 +540,6 @@
             <tbody id="page-tbody"><tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">Loading…</td></tr></tbody>
           </table>
         </div>
-
         <div class="section-title">Page Visits — Last 14 Days</div>
         <div class="chart-card">
           <div class="chart-title">Daily Page Views</div>
@@ -539,8 +547,9 @@
             <canvas id="chart-pageviews"></canvas>
           </div>
         </div>
+      </div>
 
-      </div><!-- end tab-pages -->
+    </div>
   </div>
 </div>
 
@@ -548,7 +557,6 @@
   const SUPABASE_URL = 'https://joixomjjddckbdvoxtgy.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvaXhvbWpqZGRja2Jkdm94dGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjAzOTUsImV4cCI6MjA4OTIzNjM5NX0.o6QYrHk04dSgMBFO6Vg2NuDcQt-uoLcLMHxTMryk3Ek';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
   let charts = {};
 
   // ── Auth ──────────────────────────────────────────────────────────
@@ -557,35 +565,18 @@
     const pass = document.getElementById('login-password').value;
     const btn = document.getElementById('btn-login');
     const err = document.getElementById('login-error');
-
     if (!email || !pass) { err.textContent = 'Enter email and password.'; return; }
-
-    btn.disabled = true;
-    btn.textContent = 'Signing in…';
-    err.textContent = '';
-
+    btn.disabled = true; btn.textContent = 'Signing in…'; err.textContent = '';
     const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-
-    if (error) {
-      err.textContent = error.message || 'Invalid credentials.';
-      btn.disabled = false;
-      btn.textContent = 'Sign In →';
-      return;
-    }
-
+    if (error) { err.textContent = error.message || 'Invalid credentials.'; btn.disabled = false; btn.textContent = 'Sign In →'; return; }
     showDashboard(data.user.email);
   }
 
-  async function doSignOut() {
-    await sb.auth.signOut();
-    location.reload();
-  }
+  async function doSignOut() { await sb.auth.signOut(); location.reload(); }
 
   async function checkSession() {
     const { data } = await sb.auth.getSession();
-    if (data.session) {
-      showDashboard(data.session.user.email);
-    }
+    if (data.session) showDashboard(data.session.user.email);
   }
 
   function showDashboard(email) {
@@ -595,24 +586,30 @@
     loadData();
   }
 
+  // ── Tabs ──────────────────────────────────────────────────────────
+  function switchTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    document.getElementById('tbtn-' + name).classList.add('active');
+    if (name === 'pages') loadPageVisits();
+  }
+
   // ── Data ──────────────────────────────────────────────────────────
   async function loadData() {
     document.getElementById('loading-state').classList.remove('hidden');
     document.getElementById('data-content').classList.add('hidden');
-
     try {
       const [kpi, timeline, devices, countries, durations, funnel] = await Promise.all([
         fetchKPI(), fetchTimeline(), fetchDevices(),
         fetchCountries(), fetchDurations(), fetchFunnel()
       ]);
-
       renderKPI(kpi);
       renderTimeline(timeline);
       renderDevices(devices);
       renderCountries(countries);
       renderDurations(durations);
       renderFunnel(funnel);
-
       document.getElementById('loading-state').classList.add('hidden');
       document.getElementById('data-content').classList.remove('hidden');
     } catch(e) {
@@ -639,13 +636,10 @@
   }
 
   async function fetchTimeline() {
-    const since = new Date();
-    since.setDate(since.getDate() - 13);
-    const { data } = await sb.from('events')
-      .select('created_at, event_type')
+    const since = new Date(); since.setDate(since.getDate() - 13);
+    const { data } = await sb.from('events').select('created_at, event_type')
       .gte('created_at', since.toISOString())
-      .in('event_type', ['session_started','call_connected','call_ended']);
-
+      .in('event_type', ['session_started','call_connected']);
     const days = {};
     for (let i = 0; i < 14; i++) {
       const d = new Date(); d.setDate(d.getDate() - (13 - i));
@@ -667,20 +661,20 @@
     return counts;
   }
 
-async function fetchCountries() {
+  async function fetchCountries() {
     const { data } = await sb.from('events')
       .select('country, event_type')
       .not('country', 'is', null)
       .not('country', 'eq', '')
-      .in('event_type', ['session_started', 'call_connected']);
+      .in('event_type', ['call_connected', 'room_created']);
     const counts = {};
     (data || []).forEach(r => {
       if (!counts[r.country]) counts[r.country] = { sessions: 0, calls: 0 };
-      if (r.event_type === 'session_started') counts[r.country].sessions++;
+      if (r.event_type === 'room_created') counts[r.country].sessions++;
       if (r.event_type === 'call_connected') counts[r.country].calls++;
     });
-    return Object.entries(counts).sort((a,b) => b[1].sessions - a[1].sessions).slice(0,10);
- }
+    return Object.entries(counts).sort((a,b) => (b[1].sessions + b[1].calls) - (a[1].sessions + a[1].calls)).slice(0,15);
+  }
 
   async function fetchDurations() {
     const { data } = await sb.from('events').select('call_duration').eq('event_type', 'call_ended').not('call_duration', 'is', null);
@@ -717,17 +711,13 @@ async function fetchCountries() {
     const labels = Object.keys(days).map(d => new Date(d + 'T00:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' }));
     const sessions = Object.values(days).map(d => d.sessions);
     const calls = Object.values(days).map(d => d.calls);
-
     if (charts.timeline) charts.timeline.destroy();
     charts.timeline = new Chart(document.getElementById('chart-timeline'), {
       type: 'line',
-      data: {
-        labels,
-        datasets: [
-          { label: 'Sessions', data: sessions, borderColor: '#9880dd', backgroundColor: 'rgba(152,128,221,0.08)', tension: 0.3, fill: true, pointRadius: 3, pointBackgroundColor: '#9880dd' },
-          { label: 'Calls', data: calls, borderColor: '#c8b8ff', backgroundColor: 'rgba(200,184,255,0.06)', tension: 0.3, fill: true, pointRadius: 3, pointBackgroundColor: '#c8b8ff' }
-        ]
-      },
+      data: { labels, datasets: [
+        { label: 'Sessions', data: sessions, borderColor: '#9880dd', backgroundColor: 'rgba(152,128,221,0.08)', tension: 0.3, fill: true, pointRadius: 3, pointBackgroundColor: '#9880dd' },
+        { label: 'Calls', data: calls, borderColor: '#c8b8ff', backgroundColor: 'rgba(200,184,255,0.06)', tension: 0.3, fill: true, pointRadius: 3, pointBackgroundColor: '#c8b8ff' }
+      ]},
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { labels: { color: '#7a6aaa', font: { family: 'Azeret Mono', size: 11 }, boxWidth: 10 } } },
@@ -743,14 +733,8 @@ async function fetchCountries() {
     if (charts.device) charts.device.destroy();
     charts.device = new Chart(document.getElementById('chart-device'), {
       type: 'doughnut',
-      data: {
-        labels: Object.keys(counts),
-        datasets: [{ data: Object.values(counts), backgroundColor: ['#c8b8ff','#9880dd','#4a3880'], borderWidth: 0 }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom', labels: { color: '#7a6aaa', font: { family: 'Azeret Mono', size: 11 }, boxWidth: 10, padding: 12 } } }
-      }
+      data: { labels: Object.keys(counts), datasets: [{ data: Object.values(counts), backgroundColor: ['#c8b8ff','#9880dd','#4a3880'], borderWidth: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#7a6aaa', font: { family: 'Azeret Mono', size: 11 }, boxWidth: 10, padding: 12 } } } }
     });
   }
 
@@ -758,16 +742,13 @@ async function fetchCountries() {
     document.getElementById('country-tbody').innerHTML = entries.length === 0
       ? '<tr><td colspan="3" style="color:var(--text-muted);padding-top:12px;">No data yet</td></tr>'
       : entries.map(([c, n]) => `<tr><td>${c}</td><td>${n.sessions.toLocaleString()}</td><td>${n.calls.toLocaleString()}</td></tr>`).join('');
- }
+  }
 
   function renderDurations(buckets) {
     if (charts.duration) charts.duration.destroy();
     charts.duration = new Chart(document.getElementById('chart-duration'), {
       type: 'bar',
-      data: {
-        labels: Object.keys(buckets),
-        datasets: [{ data: Object.values(buckets), backgroundColor: '#4a3880', borderRadius: 2, hoverBackgroundColor: '#9880dd' }]
-      },
+      data: { labels: Object.keys(buckets), datasets: [{ data: Object.values(buckets), backgroundColor: '#4a3880', borderRadius: 2, hoverBackgroundColor: '#9880dd' }] },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false } },
@@ -789,62 +770,55 @@ async function fetchCountries() {
       </div>`).join('');
   }
 
-  // ── Tabs ──────────────────────────────────────────────────────────
-  function switchTab(name) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    event.target.classList.add('active');
-    if (name === 'pages') loadPageVisits();
-  }
-
   // ── Page Visits ───────────────────────────────────────────────────
   async function loadPageVisits() {
     document.getElementById('page-tbody').innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">Loading…</td></tr>';
     try {
-      const { data } = await sb.from('events')
+      const { data, error } = await sb.from('events')
         .select('metadata, created_at')
         .eq('event_type', 'page_view');
 
-      if (!data || data.length === 0) {
-        document.getElementById('page-tbody').innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">No page view data yet — add tracking to blog pages first.</td></tr>';
+      if (error) {
+        document.getElementById('page-tbody').innerHTML = `<tr><td colspan="2" style="color:var(--red);">Error: ${error.message}</td></tr>`;
         return;
       }
 
-      // Count by page
+      if (!data || data.length === 0) {
+        document.getElementById('page-tbody').innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);padding-top:12px;">No page view data yet.</td></tr>';
+        return;
+      }
+
       const pageCounts = {};
       const dailyViews = {};
-
-      // Init last 14 days
       for (let i = 0; i < 14; i++) {
         const d = new Date(); d.setDate(d.getDate() - (13 - i));
         dailyViews[d.toISOString().slice(0,10)] = 0;
       }
 
       data.forEach(r => {
-        const page = (r.metadata && r.metadata.page) ? r.metadata.page : 'unknown';
+        let page = 'unknown';
+        if (r.metadata) {
+          if (typeof r.metadata === 'object') page = r.metadata.page || 'unknown';
+          else if (typeof r.metadata === 'string') {
+            try { page = JSON.parse(r.metadata).page || 'unknown'; } catch(e) {}
+          }
+        }
         pageCounts[page] = (pageCounts[page] || 0) + 1;
         const day = r.created_at.slice(0,10);
         if (dailyViews[day] !== undefined) dailyViews[day]++;
       });
 
-      // Render table
       const sorted = Object.entries(pageCounts).sort((a,b) => b[1]-a[1]);
       document.getElementById('page-tbody').innerHTML = sorted.map(([page, count]) =>
         `<tr><td>${page}</td><td>${count.toLocaleString()}</td></tr>`
       ).join('');
 
-      // Render chart
       const labels = Object.keys(dailyViews).map(d => new Date(d + 'T00:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' }));
       const values = Object.values(dailyViews);
-
       if (charts.pageviews) charts.pageviews.destroy();
       charts.pageviews = new Chart(document.getElementById('chart-pageviews'), {
         type: 'bar',
-        data: {
-          labels,
-          datasets: [{ label: 'Page Views', data: values, backgroundColor: '#4a3880', borderRadius: 2, hoverBackgroundColor: '#9880dd' }]
-        },
+        data: { labels, datasets: [{ label: 'Page Views', data: values, backgroundColor: '#4a3880', borderRadius: 2, hoverBackgroundColor: '#9880dd' }] },
         options: {
           responsive: true, maintainAspectRatio: false,
           plugins: { legend: { display: false } },
@@ -855,7 +829,7 @@ async function fetchCountries() {
         }
       });
     } catch(e) {
-      document.getElementById('page-tbody').innerHTML = '<tr><td colspan="2" style="color:var(--red);">Failed to load page data.</td></tr>';
+      document.getElementById('page-tbody').innerHTML = `<tr><td colspan="2" style="color:var(--red);">Failed: ${e.message}</td></tr>`;
     }
   }
 
